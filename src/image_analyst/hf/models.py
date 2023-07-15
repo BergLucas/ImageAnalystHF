@@ -86,7 +86,8 @@ class Detr(ODModel):
             raise ModelLoadingFailedException("Cannot load the Detr model.") from e
 
         self.__score_threshold = score_threshold
-        self.__model = model
+        self.__device = "cuda:0" if torch.cuda.is_available() else "cpu"
+        self.__model = model.to(self.__device)
         self.__image_processor = image_processor
 
     @property
@@ -112,7 +113,7 @@ class Detr(ODModel):
         inputs = self.__image_processor(
             images=pil_image,
             return_tensors="pt",
-        )  # type: ignore
+        ).to(self.__device)  # type: ignore
         logger.info("Completed Image preprocessing")
 
         logger.info("Started Image detection")
