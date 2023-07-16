@@ -6,7 +6,7 @@ ImageAnalyst HF is an extension to the [ImageAnalyst](https://github.com/BergLuc
 
 The application requires:
 
-- [Python](https://www.python.org/) ~= 3.9
+- [Python](https://www.python.org/) >=3.9, <3.12
 - [pip](https://pip.pypa.io/en/stable/)
 
 ## Download
