@@ -1,21 +1,23 @@
 from __future__ import annotations
+
+import logging
+
+import numpy as np
+import torch
+from PIL import Image
+from transformers import AutoImageProcessor, DetrForObjectDetection
+
 from image_analyst.exceptions import (
-    ModelLoadingFailedException,
-    InvalidDtypeException,
     DetectionFailedException,
+    InvalidDtypeException,
+    ModelLoadingFailedException,
 )
 from image_analyst.image import (
     BoundingBox,
     ImageFormat,
     verify_image,
 )
-from image_analyst.models import ODModel, Detection
-from transformers import DetrForObjectDetection, AutoImageProcessor
-from PIL import Image
-import numpy as np
-import logging
-import torch
-
+from image_analyst.models import Detection, ODModel
 
 logger = logging.getLogger(__name__)
 
@@ -113,7 +115,9 @@ class Detr(ODModel):
         inputs = self.__image_processor(
             images=pil_image,
             return_tensors="pt",
-        ).to(self.__device)  # type: ignore
+        ).to(
+            self.__device
+        )  # type: ignore
         logger.info("Completed Image preprocessing")
 
         logger.info("Started Image detection")
